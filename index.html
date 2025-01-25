@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行军加速计算器</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    行军剩余<input id="input" type="number" />分钟
+    <button id="calculate">计算</button>
+    <div id="result"></div>
+    <ol id="log"></ol>
+
+    <script>
+        function calculateDiamonds(minutes) {
+            let remainingTime = minutes * 60; // 将分钟转换为秒
+            let count = 0;
+            const reductionFactor = 0.75; // 25%减少意味着剩余75%
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML = ''; // 清空之前的日志
+            while (remainingTime > 10) {
+                const time = remainingTime.toFixed(2);
+                remainingTime *= reductionFactor;
+                count += 1;
+                logDiv.innerHTML += `<li>&nbsp;&nbsp;${time} - (${time} x 25%)=${remainingTime.toFixed(2)}</li>`;
+            }
+
+            return count;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const calculateButton = document.getElementById('calculate');
+            const inputField = document.getElementById('input');
+            const resultDiv = document.getElementById('result');
+
+            calculateButton.addEventListener('click', function () {
+                const minutes = parseFloat(inputField.value);
+                if (!isNaN(minutes) && minutes > 0) {
+                    const count = calculateDiamonds(minutes);
+                    resultDiv.textContent = `从${minutes}分钟，也就是${minutes * 60}秒，要想加速到小于10秒，总共需要${count}次加速, 也就是${count * 400}钻石。计算过程如下：`;
+                } else {
+                    resultDiv.textContent = '请输入有效的分钟数';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
